@@ -3,23 +3,20 @@
 Mock Vue.js website for a simple fund management system.
 
 ## Project setup
-1. Install the dependencies
+1. In the root folder, install the dependencies and run the app for development
 ```
 npm install
-```
-
-2. Compiles and run the app for development
-```
 npm run serve
 ```
 
-3. Run the Node.js server
+2. Run the Node.js server
 ```
 cd server
+npm install
 npm start
 ```
 
-4. Default account for login:
+3. Default account for login:
 ```
 Username: testing@gmail.com
 Password: 12345678
