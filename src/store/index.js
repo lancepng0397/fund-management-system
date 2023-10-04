@@ -9,16 +9,20 @@ export default createStore({
     isUserLoggedIn: false,
     balance: 10000,
     portfolio: [],
-    funds: {}
+    funds: {},
+    isDataFetched: false
   },
   getters: {
     // Getter to retrieve fund data by ID
-    getFundById: (state) => (fundId) => {
-      const fundData = state.funds[fundId]
+    getFundById: (state) => (id) => {
+      const fundData = Object.values(state.funds).find(fund => fund.id === id)
       return fundData || {}
     }
   },
   mutations: {
+    SET_DATA_FETCHED (state, value) {
+      state.isDataFetched = value
+    },
     setToken (state, token) {
       state.token = token
       if (token) {
@@ -106,9 +110,6 @@ export default createStore({
           // Deduct the cost from the user's balance
           commit('DECREASE_BALANCE', totalCost)
 
-          // Update the fund data in the store with the latest data
-          commit('UPDATE_FUND_DATA', { fundId, fundData: fund })
-
           // Add the bought fund to the user's portfolio
           commit('ADD_TO_PORTFOLIO', { fundId, quantity })
         } else {
@@ -121,10 +122,11 @@ export default createStore({
     sellFund ({ commit, state }, { fundId, sellQuantity }) {
       // Check if the user has enough of the fund to sell
       const portfolioItem = state.portfolio.find(item => item.fundId === fundId)
-
       if (portfolioItem && portfolioItem.quantity >= sellQuantity && sellQuantity > 0) {
         // Calculate the amount to add to the user's balance
-        const fund = state.funds[fundId]
+        const fundsArray = Object.values(state.funds)
+        const fund = fundsArray.find(fund => fund.id === fundId)
+
         const saleAmount = fund.fundNAV * sellQuantity
 
         // Increase the user's balance

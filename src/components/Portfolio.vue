@@ -52,7 +52,7 @@ export default {
       return this.portfolio.map(portfolioItem => {
         const fundData = this.$store.getters.getFundById(portfolioItem.fundId)
         return {
-          fundId: portfolioItem.fundId,
+          fundId: fundData.id,
           fundName: fundData.fundName,
           fundNAV: fundData.fundNAV,
           quantity: portfolioItem.quantity,

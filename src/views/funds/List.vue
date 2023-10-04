@@ -25,7 +25,12 @@ export default {
     ListItem
   },
   async mounted () {
-    await this.$store.dispatch('fetchFunds')
+    if (!this.$store.state.isDataFetched) {
+      await this.$store.dispatch('fetchFunds')
+
+      // Set the flag to true after the initial fetch
+      this.$store.commit('SET_DATA_FETCHED', true)
+    }
   }
 }
 </script>
